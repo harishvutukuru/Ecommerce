@@ -1,0 +1,63 @@
+{% extends "../layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+    <div class= "row my-4">
+        <div class="card card-body col-md-4">
+            <h5>Add New Category</h5>
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input style="width:100%;margin-top:10px;" class="btn btn-success btn-block" type="submit" value="Add">
+            </form>
+        </div>
+        <div class="col-md-8 col-md-offset-8">
+            <table class="table bg-white">
+                <thead class="bg-info text-white">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in category %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>
+                            <a class="btn btn-info btn-sm mr-2"
+                                href="{% url 'category-edit' product.id %}">Edit</a>
+                            <a class="btn btn-danger btn-sm ml-2"
+                                href="{% url 'category-delete' product.id %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+         {% if messages %}
+        {% for message in messages %}
+        {% if 'success' in message.tags %}
+        <div id="div1" class="container" style="margin-left:20%;margin-top:10%;position:absolute;z-index: 99;width:40%">
+      <div class="alert alert-success" role="alert" style="height:130px;text-align:center;">
+          <button style="float:right;width:10px;" class="btn-close"></button>
+          <hr>
+       {{ message }}
+      </div>
+     </div>
+        {% else %}
+        <div id="div1" class="container" style="margin-left:20%;margin-top:10%;position:absolute;z-index: 99;width:40%">
+      <div class="alert alert-danger" role="alert" style="height:120px;text-align:center;">
+          <button style="float:right;width:10px;" class="btn-close"></button>
+          <hr>
+       {{ message }}
+      </div>
+     </div>
+         {% endif %}
+        {% endfor %}
+    {% endif %}
+    </div>
+{% endblock %}
+

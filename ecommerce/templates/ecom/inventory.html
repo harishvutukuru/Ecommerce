@@ -1,0 +1,46 @@
+{% extends "../layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="container">
+  <div class="row" >
+    <div class="card card-body col-md-4" style="margin-bottom: 10px;margin-top: 10px;">
+            <h5> Most Purchased Product </h5>
+            <hr>
+  <h5>{{most_purchased_product.product__name}}</h5>
+  <p class="price">${{most_purchased_product.product__cost_per_item}}</p>
+  <p>{{most_purchased_product.total_qty}} quantities purchased Today</p>
+    </div>
+<div class="card card-body col-md-4" style=" margin-left: 10px;margin-bottom: 10px;margin-top: 10px;">
+            <h5> Most Sold Product </h5>
+            <hr>
+  <h5>{{most_sold_product.product__name}}</h5>
+  <p class="price">${{most_sold_product.product__cost_per_item}}</p>
+  <p>{{most_sold_product.total_qty}} quantities sold Today</p>
+
+
+        </div>
+      <div class="card card-body col-md-4" style="margin-left: 10px;margin-bottom: 10px;">
+            <h5> Product in loss </h5>
+            <hr>
+     {% for product_in_loss in product_in_loss %}
+  <h5>{{product_in_loss.product__name}}</h5>
+  <p>${{product_in_loss.total_price}} in loss</p>
+{% endfor %}
+
+        </div>
+      </div>
+
+<div class="card card-body col-md-4" style="margin-left: 10px;">
+            <h5> Product out of stocks </h5>
+            <hr>
+     {% for product_out_of_stocks in product_out_of_stocks %}
+  <h5>{{product_out_of_stocks.product__name}}</h5>
+  <p>{{product_out_of_stocks.total_qty}} quantities are in ecom</p>
+{% endfor %}
+
+        </div>
+      </div>
+</div>
+{% endblock %}
+

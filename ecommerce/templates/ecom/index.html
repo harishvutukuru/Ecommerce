@@ -1,0 +1,117 @@
+{% extends "../layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="row ">
+    {% if request.user.is_authenticated and request.user.userprofile.user_role in 'staff' or request.user.is_superuser %}
+
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'user_create' %}">Users</a>
+            </p>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'product' %}">Products</a>
+              </p>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'order' %}">Orders</a>
+            </p>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'purchase' %}">Purchase</a>
+            </p>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'sale' %}">Sale</a>
+            </p>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'stats' %}">Statistics</a>
+            </p>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'settings' %}">Settings</a>
+            </p>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'ecom' %}">ecom</a>
+            </p>
+            </div>
+          </div>
+    </div>
+
+    {% elif request.user.is_authenticated and request.user.userprofile.user_role in 'customer' %}
+    <meta http-equiv="refresh" content="0; url=access_denied">
+
+<!--    <div class="col-md-4 my-4">-->
+<!--        <div class="card" style="width: 18rem;">-->
+<!--            <div class="card-body">-->
+<!--              <p class="card-text">-->
+<!--                <a style="text-decoration: none;" href="{% url 'product' %}">Products</a>-->
+<!--              </p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--    </div>-->
+<!--    <div class="col-md-4 my-4">-->
+<!--        <div class="card" style="width: 18rem;">-->
+<!--            <div class="card-body">-->
+<!--              <p class="card-text">-->
+<!--                <a style="text-decoration: none;" href="{% url 'order' %}">Orders</a>-->
+<!--            </p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--    </div>-->
+    {% else %}
+    <p>{{role}}</p>
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'login' %}">Please login to the system</a>
+              </p>
+            </div>
+          </div>
+    </div>
+    {% endif %}
+</div>
+
+
+{% endblock %}

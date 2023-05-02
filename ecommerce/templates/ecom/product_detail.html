@@ -1,0 +1,37 @@
+{% extends "../layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="row my-4">
+    <div class="col-md-6 offset-md-3 p-3 bg-white">
+        <h3>Order {{ product.name }}</h3>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input  class="btn btn-info" type="submit" value="Make Order">
+        </form>
+    </div>
+</div>
+
+{% if messages %}
+        {% for message in messages %}
+        {% if 'success' in message.tags %}
+        <div id="div1" class="container" style="margin-left:20%;margin-top:10%;position:absolute;z-index: 99;width:40%">
+      <div class="alert alert-success" role="alert" style="height:130px;text-align:center;">
+          <button style="float:right;width:10px;" class="btn-close"></button>
+          <hr>
+       {{ message }}
+      </div>
+     </div>
+        {% else %}
+        <div id="div1" class="container" style="margin-left:20%;margin-top:10%;position:absolute;z-index: 99;width:40%">
+      <div class="alert alert-danger" role="alert" style="height:120px;text-align:center;">
+          <button style="float:right;width:10px;" class="btn-close"></button>
+          <hr>
+       {{ message }}
+      </div>
+     </div>
+         {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

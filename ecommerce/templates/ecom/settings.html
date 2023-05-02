@@ -1,0 +1,38 @@
+{% extends "../layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<div class="row ">
+    {% if request.user.is_authenticated %}
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'category' %}">Category</a>
+            </p>
+            </div>
+          </div>
+    </div>
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'sub_category' %}">Sub Category</a>
+              </p>
+            </div>
+          </div>
+    </div>
+
+    {% else %}
+    <div class="col-md-4 my-4">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <p class="card-text">
+                <a style="text-decoration: none;" href="{% url 'login' %}">Please login to the system</a>
+              </p>
+            </div>
+          </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

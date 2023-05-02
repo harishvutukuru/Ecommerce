@@ -1,0 +1,96 @@
+{% extends "../layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+    <div class= "row my-4">
+        {% if request.user.is_authenticated and request.user.userprofile.user_role in 'staff' or request.user.is_superuser %}
+        <div class="card card-body col-md-4">
+            <h5>Add New Products</h5>
+            <hr>
+            <form method="POST" enctype="multipart/form-data" >
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input style="width:100%;margin-top:10px;" class="btn btn-success btn-block" type="submit" value="Add">
+            </form>
+        </div>
+        {% else %}
+
+        {% endif %}
+
+        <div class="col-md-8 col-md-offset-8">
+            <table class="table bg-white">
+                <thead class="bg-info text-white">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Sub Category</th>
+                        <th scope="col">Cost ($)</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Activity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in product %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>{{ product.sub_category }}</td>
+                        <td>{{ product.cost_per_item }}</td>
+                        <td>{{ product.quantity }}</td>
+                        <td><img src="{{ product.image }}" alt="{{ product.name }}" height="50" width="50"></td>
+
+                        <td>
+                            {% if request.user.userprofile.user_role in 'staff' or  request.user.is_superuser %}
+                            <a class="btn btn-info btn-sm mr-2"
+                                href="{% url 'products-edit' product.id %}">Edit</a>
+                            <a class="btn btn-danger btn-sm ml-2"
+                                href="{% url 'products-delete' product.id %}">Delete</a>
+                            {% endif %}
+                            <a class="btn btn-success btn-sm ml-2"
+                                href="{% url 'products-detail' product.id %}">Order</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+<!--        {% if message.success %}-->
+<!--        <div id="div1" class="container" style="margin-left:20%;margin-top:10%;position:absolute;z-index: 99;width:40%">-->
+<!--      <div class="alert alert-success" role="alert" style="height:100px;">-->
+<!--          <button style="float:right;width:10px;" class="btn-close"></button>-->
+<!--          <h3 style="color:black">Message</h3>-->
+<!--          <hr>-->
+<!--       {{ message }}-->
+<!--      </div>-->
+<!--     </div>-->
+<!--    {% endif %}-->
+
+        {% if messages %}
+        {% for message in messages %}
+        {% if 'success' in message.tags %}
+        <div id="div1" class="container" style="margin-left:20%;margin-top:10%;position:absolute;z-index: 99;width:40%">
+      <div class="alert alert-success" role="alert" style="height:130px;text-align:center;">
+          <button style="float:right;width:10px;" class="btn-close"></button>
+          <hr>
+       {{ message }}
+      </div>
+     </div>
+        {% else %}
+        <div id="div1" class="container" style="margin-left:20%;margin-top:10%;position:absolute;z-index: 99;width:40%">
+      <div class="alert alert-danger" role="alert" style="height:120px;text-align:center;">
+          <button style="float:right;width:10px;" class="btn-close"></button>
+          <hr>
+       {{ message }}
+      </div>
+     </div>
+         {% endif %}
+        {% endfor %}
+    {% endif %}
+    </div>
+
+{% endblock %}
+

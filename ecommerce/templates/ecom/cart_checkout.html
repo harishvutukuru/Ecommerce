@@ -1,0 +1,122 @@
+{% extends "../layout.html" %}
+
+{% block content %}
+
+<style>
+  table {
+  width: 100%;
+  height:100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  height:50%;
+  width: 50%;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.cart-button {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.cart-button:hover {
+  background-color: #0062cc;
+}
+
+.form-control {
+  width: 50px;
+  display: inline-block;
+  text-align: center;
+  margin-right: 5px;
+}
+
+.update-button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.update-button:hover {
+  background-color: #218838;
+}
+
+.remove-button {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.remove-button:hover {
+  background-color: #c82333;
+}
+
+  </style>
+  <h1>Cart</h1>
+  <table >
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Image</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart_items %}
+        <tr>
+          <td>{{ item.product.name }}</td>
+          <td><img src="{{ item.image }}" alt="{{ item.product.name }}" height="100" width="100"></td>
+          <td>{{ item.product.cost_per_item }}</td>
+          <td>
+            <form method="POST"  action="{% url 'cart_update' item.id %}">
+              {% csrf_token %}
+              <input type="number" name="quantity" value="{{ item.quantity }}">
+              <button class="update-button" type="submit">Update</button>
+            </form>
+          </td>
+          <td>{{ item.quantity}}</td>
+          <td>
+            <form method="POST" action="{% url 'cart_remove' item.id %}">
+              {% csrf_token %}
+              <button class="remove-button" type="submit">Remove</button>
+            </form>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">Your cart is empty</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'checkout' %}" class="cart-button">Checkout</a>
+{% endblock %}
